@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "rebac-be"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "^0.115.5"}
+pydantic-settings = "^2.6.1"
+
+[tool.poetry.scripts]
+start = "rebac_be.main:start"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
