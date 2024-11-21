@@ -29,3 +29,8 @@ uvicorn rebac_be.main:app --reload
 ## Environment varibles
 
 .env file contains necessary env variables. Please modify it if you want to test from your own account.
+
+## Sample Screenshots
+
+![alt text](image.png)
+![alt text](image-1.png)
