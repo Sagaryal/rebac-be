@@ -22,6 +22,24 @@ def format_resources(data):
             
             edges.append({"source": resource_node_id, "target": role_node_id, "type": "has_role", "label": "has_role"})
 
+            # Add edges for role derivations
+            granted_to = role.get("granted_to")
+            if granted_to and "users_with_role" in granted_to:
+                for user_with_role in granted_to["users_with_role"]:
+                    user_node_id = user_with_role["role_id"]
+                    
+                    # Only add user node if it is not already in the set
+                    if user_node_id not in node_ids:
+                        nodes.append({"id": role, "label": user_with_role["role"], "type": "user"})
+                        node_ids.add(user_node_id)
+
+                    edges.append({
+                        "source": user_with_role["role"],
+                        "target": role_node_id,
+                        "type": "assigned_to_user",
+                        "label": user_with_role["linked_by_relation"],
+                    })
+        
             # Add permissions as nodes and create edges from roles to permissions
             for permission in role["permissions"]:
                 permission_node_id = permission
@@ -37,8 +55,8 @@ def format_resources(data):
         for relation_key, relation in resource["relations"].items():
             if relation.get("resource_id"):
                 edges.append({
-                    "source": resource_node_id,
-                    "target": relation["resource"],
+                    "source": relation["resource"],
+                    "target": resource_node_id,
                     "type": "relation",
                     "label": relation_key,
                 })
